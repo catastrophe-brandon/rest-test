@@ -100,5 +100,6 @@ ENV/
 # mypy
 .mypy_cache/
 
-.idea/
-**/vcs.xml
+.idea
+.pytest_cache/
+test_results.html
