@@ -19,6 +19,7 @@ def rest_request_test(request_url, request_type, request_body_dict=None, request
     :param request_headers_dict
     :param expected_status
     :param expected_response_dict
+    :param verify should be set to True if SSL certificate verification is desired.
     """
     assert request_url is not None and request_url != '', 'request_url is a required parameter'
 
@@ -38,8 +39,10 @@ def rest_request_test(request_url, request_type, request_body_dict=None, request
     assert response.status_code == expected_status,\
         'Expected {} but got {}'.format(expected_status, response.status_code)
 
-    print(response.content)
-    assert expected_response_dict == json.loads(response.content), \
-        'mismatch between expected response and actual response content'
+    if expected_response_dict is not None:
+        assert expected_response_dict == json.loads(response.content), \
+            'mismatch between expected response and actual response content'
+    else:
+        assert response.content is None
 
     return True
