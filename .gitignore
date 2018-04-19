@@ -100,6 +100,6 @@ ENV/
 # mypy
 .mypy_cache/
 
-.idea
+.idea/
 .pytest_cache/
 test_results.html
