@@ -1,13 +1,13 @@
-from _signal import CTRL_C_EVENT
-from _winapi import CREATE_NEW_PROCESS_GROUP
-
+import logging
 import os
 from subprocess import Popen
-import requests
-import logging
 
-from tests.test_logger import logger
+import requests
+
+from _signal import CTRL_C_EVENT
+from _winapi import CREATE_NEW_PROCESS_GROUP
 from request_test.request_test import rest_request_test
+from tests.logger_config import logger
 
 
 class TestFunctional(object):
