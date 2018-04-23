@@ -3,6 +3,8 @@ pytest-html
 
 requests
 
+flask
+
 flake8
 flake8-quotes
 flake8-docstrings
