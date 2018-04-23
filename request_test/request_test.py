@@ -43,6 +43,6 @@ def rest_request_test(request_url, request_type, request_body_dict=None, request
         assert expected_response_dict == json.loads(response.content), \
             'mismatch between expected response and actual response content'
     else:
-        assert response.content is None
+        logger.debug('Expected response not given; not inspecting response content')
 
     return True
