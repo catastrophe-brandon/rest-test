@@ -36,7 +36,7 @@ def rest_request_test(request_url, request_type, request_body_dict=None, request
         response = request_type(request_url, headers=request_headers_dict, json=request_body_dict, verify=verify)
 
     logger.debug('Response status code: %d' % response.status_code)
-    assert response.status_code == expected_status,\
+    assert expected_status == response.status_code,\
         'Expected {} but got {}'.format(expected_status, response.status_code)
 
     if expected_response_dict is not None:
