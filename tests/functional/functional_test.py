@@ -32,7 +32,7 @@ class TestFunctional(object):
     def setup_method(self):
         """Set up instance specific test stuff."""
         logging.debug('Test setup called.')
-        self.url = 'http://localhost:5000'
+        self.url = 'http://127.0.0.1:5000'
 
     def teardown_method(self):
         """Tear down for individual test instance."""
