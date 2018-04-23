@@ -5,7 +5,6 @@ from subprocess import Popen
 import requests
 import psutil
 
-from _winapi import CREATE_NEW_PROCESS_GROUP
 from request_test.request_test import rest_request_test
 from tests.logger_config import logger
 
@@ -18,7 +17,7 @@ class TestFunctional(object):
         logging.debug('Starting flask server')
         os.environ['FLASK_APP'] = 'tests/functional/server.py'
         logger.debug('FLASK_APP is {}'.format(os.getenv('FLASK_APP')))
-        cls.server = Popen(['flask', 'run'], shell=True, creationflags=CREATE_NEW_PROCESS_GROUP)
+        cls.server = Popen(['flask', 'run'], shell=True)
         assert cls.server.returncode is None
         assert cls.server is not None
 
