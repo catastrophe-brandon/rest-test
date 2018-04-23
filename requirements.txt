@@ -12,3 +12,5 @@ flake8-polyfill
 flake8-blind-except
 
 pytest-cov
+
+psutil

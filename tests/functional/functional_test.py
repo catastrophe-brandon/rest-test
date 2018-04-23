@@ -3,8 +3,8 @@ import os
 from subprocess import Popen
 
 import requests
+import psutil
 
-from _signal import CTRL_C_EVENT
 from _winapi import CREATE_NEW_PROCESS_GROUP
 from request_test.request_test import rest_request_test
 from tests.logger_config import logger
@@ -26,7 +26,8 @@ class TestFunctional(object):
         """Shutdown the server and cleanup from tests."""
         # TODO: Find a way to shut down flask without feeding it a Ctrl+C; this feels clunky.
         logger.debug('Shutting down flask server')
-        cls.server.send_signal(CTRL_C_EVENT)
+        server_process = psutil.Process(pid=cls.server.pid)
+        server_process.kill()
         logger.info('Server terminated')
 
     def setup_method(self):
