@@ -47,6 +47,8 @@ class TestFunctional(object):
         assert cls.server.returncode is None
         time.sleep(2)
         assert is_open(5000)
+        cls.server.poll()
+        assert cls.server.returncode is None
 
     def teardown_class(cls):
         """Shutdown the server and cleanup from tests."""
