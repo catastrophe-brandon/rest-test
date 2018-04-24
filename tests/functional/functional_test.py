@@ -42,7 +42,7 @@ class TestFunctional(object):
         assert os.getenv('FLASK_APP') is not None
         logger.debug('FLASK_APP is {}'.format(os.getenv('FLASK_APP')))
         logger.debug('SERVER_NAME is {}'.format(os.getenv('SERVER_NAME')))
-        cls.server = Popen(['flask', 'run'], shell=True)
+        cls.server = Popen(['flask', 'run'])
         logger.debug('flask process pid is {}'.format(cls.server.pid))
         assert cls.server.returncode is None
         time.sleep(2)
