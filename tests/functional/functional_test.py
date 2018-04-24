@@ -25,19 +25,17 @@ class TestFunctional(object):
         """Start flask server once for this class."""
         kill_all('flask')
         kill_all('flask.exe')
-
         logging.debug('Starting flask server')
-        os.environ['FLASK_APP'] = 'tests/functional/server.py'
+        # os.environ['FLASK_APP'] = 'tests/functional/server.py'
         logger.debug('FLASK_APP is {}'.format(os.getenv('FLASK_APP')))
         cls.server = Popen(['flask', 'run'], shell=True)
         logger.debug('flask process pid is {}'.format(cls.server.pid))
         assert cls.server.returncode is None
         assert cls.server is not None
-        time.sleep(2)
+        time.sleep(10)
 
     def teardown_class(cls):
         """Shutdown the server and cleanup from tests."""
-        # TODO: Find a way to shut down flask without feeding it a Ctrl+C; this feels clunky.
         logger.debug('Shutting down flask server')
         kill_all('flask.exe')
         kill_all('flask')
