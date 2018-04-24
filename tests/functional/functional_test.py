@@ -4,6 +4,7 @@ from subprocess import Popen
 
 import requests
 import psutil
+import time
 
 from request_test.request_test import rest_request_test
 from tests.logger_config import logger
@@ -20,6 +21,7 @@ class TestFunctional(object):
         cls.server = Popen(['flask', 'run'], shell=True)
         assert cls.server.returncode is None
         assert cls.server is not None
+        time.sleep(2)
 
     def teardown_class(cls):
         """Shutdown the server and cleanup from tests."""
