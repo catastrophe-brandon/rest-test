@@ -10,15 +10,27 @@ from request_test.request_test import rest_request_test
 from tests.logger_config import logger
 
 
+def kill_all(process_name):
+    """Kill all processes with the name matching process_name."""
+    for proc in psutil.process_iter():
+        if proc.name() == process_name:
+            logging.debug('Killing process {} with name {}'.format(proc.pid, process_name))
+            proc.kill()
+
+
 class TestFunctional(object):
     """Perform basic functional tests using the rest_request_test function against a simple REST API."""
 
     def setup_class(cls):
         """Start flask server once for this class."""
+        kill_all('flask')
+        kill_all('flask.exe')
+
         logging.debug('Starting flask server')
         os.environ['FLASK_APP'] = 'tests/functional/server.py'
         logger.debug('FLASK_APP is {}'.format(os.getenv('FLASK_APP')))
         cls.server = Popen(['flask', 'run'], shell=True)
+        logger.debug('flask process pid is {}'.format(cls.server.pid))
         assert cls.server.returncode is None
         assert cls.server is not None
         time.sleep(2)
@@ -27,14 +39,14 @@ class TestFunctional(object):
         """Shutdown the server and cleanup from tests."""
         # TODO: Find a way to shut down flask without feeding it a Ctrl+C; this feels clunky.
         logger.debug('Shutting down flask server')
-        server_process = psutil.Process(pid=cls.server.pid)
-        server_process.kill()
+        kill_all('flask.exe')
+        kill_all('flask')
         logger.info('Server terminated')
 
     def setup_method(self):
         """Set up instance specific test stuff."""
         logging.debug('Test setup called.')
-        self.url = 'http://127.0.0.1:5000'
+        self.url = 'http://localhost:5000'
 
     def teardown_method(self):
         """Tear down for individual test instance."""
