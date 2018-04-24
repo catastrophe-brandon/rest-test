@@ -4,6 +4,7 @@ from subprocess import Popen
 
 import requests
 import psutil
+import socket
 import time
 
 from request_test.request_test import rest_request_test
@@ -16,6 +17,17 @@ def kill_all(process_name):
         if proc.name() == process_name:
             logging.debug('Killing process {} with name {}'.format(proc.pid, process_name))
             proc.kill()
+
+
+def is_open(port_number):
+    """Return True if a port is open."""
+    s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+    result = s.connect_ex(('127.0.0.1', port_number))
+    s.close()
+    if result == 0:
+        return True
+    else:
+        return False
 
 
 class TestFunctional(object):
@@ -36,6 +48,7 @@ class TestFunctional(object):
         assert cls.server.returncode is None
         assert cls.server is not None
         time.sleep(2)
+        assert is_open(5000)
 
     def teardown_class(cls):
         """Shutdown the server and cleanup from tests."""
