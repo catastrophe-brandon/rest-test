@@ -2,7 +2,7 @@
 import logging
 
 logger = logging.getLogger()
-handler = logging.StreamHandler()
+handler = logging.FileHandler('test.log')
 formatter = logging.Formatter(
     '%(asctime)s %(name)-12s %(levelname)-8s %(message)s')
 handler.setFormatter(formatter)

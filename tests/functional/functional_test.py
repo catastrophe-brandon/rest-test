@@ -25,14 +25,17 @@ class TestFunctional(object):
         """Start flask server once for this class."""
         kill_all('flask')
         kill_all('flask.exe')
+        time.sleep(2)
         logging.debug('Starting flask server')
-        # os.environ['FLASK_APP'] = 'tests/functional/server.py'
+        if os.getenv('FLASK_APP') is None:
+            os.environ['FLASK_APP'] = 'tests/functional/server.py'
         logger.debug('FLASK_APP is {}'.format(os.getenv('FLASK_APP')))
+        logger.debug('SERVER_NAME is {}'.format(os.getenv('SERVER_NAME')))
         cls.server = Popen(['flask', 'run'], shell=True)
         logger.debug('flask process pid is {}'.format(cls.server.pid))
         assert cls.server.returncode is None
         assert cls.server is not None
-        time.sleep(10)
+        time.sleep(2)
 
     def teardown_class(cls):
         """Shutdown the server and cleanup from tests."""
