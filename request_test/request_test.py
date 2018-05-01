@@ -7,7 +7,7 @@ logger = logging.getLogger(__name__)
 
 
 def rest_request_test(request_url, request_type, request_body_dict=None, request_headers_dict=None, expected_status=200,
-                      expected_response_dict=None, verify=True):
+                      expected_response_dict=None, verify=True, timeout=3):
     """
     Issue a request of the specified type against the specified URL, and provided the specified header/body data.
 
@@ -20,6 +20,7 @@ def rest_request_test(request_url, request_type, request_body_dict=None, request
     :param expected_status
     :param expected_response_dict
     :param verify should be set to True if SSL certificate verification is desired.
+    :param timeout
     """
     assert request_url is not None and request_url != '', 'request_url is a required parameter'
 
@@ -31,9 +32,10 @@ def rest_request_test(request_url, request_type, request_body_dict=None, request
 
     # invoke the request function
     if request_type == requests.delete or request_type == requests.options:
-        response = request_type(request_url, verify=verify)
+        response = request_type(request_url, verify=verify, timeout=timeout)
     else:
-        response = request_type(request_url, headers=request_headers_dict, json=request_body_dict, verify=verify)
+        response = request_type(request_url, headers=request_headers_dict, json=request_body_dict, verify=verify,
+                                timeout=timeout)
 
     logger.debug('Response status code: %d' % response.status_code)
     assert expected_status == response.status_code,\
@@ -43,6 +45,6 @@ def rest_request_test(request_url, request_type, request_body_dict=None, request
         assert expected_response_dict == json.loads(response.content), \
             'mismatch between expected response and actual response content'
     else:
-        assert response.content is None
+        logger.debug('Expected response not given; not inspecting response content')
 
     return True

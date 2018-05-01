@@ -2,6 +2,9 @@ language: python
 python:
     - "3.6"
 install:
-        pip install -U tox
+    pip install -U tox
+before_script:
+  - export FLASK_APP="$TRAVIS_BUILD_DIR/tests/functional/server.py"
+  - export FLASK_DEBUG=1
 script:
-        tox -re travis
+    tox -re travis
